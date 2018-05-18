@@ -288,13 +288,34 @@ let buttons = document.querySelectorAll('button');
 
     function sort(x, data) {
 
-         data = data.sort((a, b)=>{
-             if(a[x.innerText]>b[x.innerText]) {
-                return 1
-             }else{
-                return -1
-             }
-        });
+         if(x.innerText == 'fda_date_approved'){
+             data = data.sort((a, b)=>{
+                 if(new Date(a[x.innerText])>new Date(b[x.innerText]) || a[x.innerText] === undefined) {
+                     return 1
+                 }else{
+                     return -1
+                 }
+             });
+         }else if(x.innerText === 'price'){
+             data = data.sort((a, b)=>{
+                 if(a[x.innerText]>b[x.innerText] || a[x.innerText] === undefined) {
+                     return 1
+                 }else{
+                     return -1
+                 }
+             });
+         }else{
+             data = data.sort((a, b)=>{
+                 if(a[x.innerText]>b[x.innerText] || a[x.innerText] === undefined) {
+                     return 1
+                 }else{
+                     return -1
+                 }
+             });
+         }
+
+
+        console.log(data[0][x.innerText]);
         showTable(data)
     }
 
