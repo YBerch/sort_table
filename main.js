@@ -237,6 +237,7 @@ let buttons = document.querySelectorAll('button');
 
     function showTable(data) {
 
+      //  clear table
       document.querySelector('#table').innerHTML = ''
 
       let table = document.createElement('table');
@@ -246,7 +247,7 @@ let buttons = document.querySelectorAll('button');
       let tbody = document.createElement('tbody')
       let tr = document.createElement('tr');
 
-
+      // get headers data of table
       let head = [];
       for(let i=0; i<data.length; i++) {
           Object.assign(head, Object.keys(data[i]))
@@ -268,6 +269,7 @@ let buttons = document.querySelectorAll('button');
       thead.append(tr);
       table.append(thead);
 
+      // push data to table
       for(let i=0; i<data.length; i++){
           let tr = document.createElement('tr');
           for(let j=0; j<head.length; j++){
@@ -292,7 +294,7 @@ let buttons = document.querySelectorAll('button');
              }else{
                 return -1
              }
-        })
+        });
         showTable(data)
     }
 
