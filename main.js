@@ -256,11 +256,7 @@ let buttons = document.querySelectorAll('button');
       for(let i=0; i<head.length; i++){
           let th = document.createElement('th');
           th.innerHTML = head[i];
-          if (head[i] === 'company_name'){
-              th.setAttribute('class', 'string')
-          }else if (head[i] === 'price'){
               th.setAttribute('class', 'number')
-          }
           th.addEventListener('click', (e)=>{
               sort(e.target, data)
           });
