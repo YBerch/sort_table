@@ -253,10 +253,14 @@ showTable(json['Data example B']);
           head = Object.keys(data[i]).length>Object.keys(head).length? data[i]: head
       }
         head = Object.keys(head);
-
       for(let i=0; i<head.length; i++){
           let th = document.createElement('th');
           th.innerHTML = head[i];
+
+
+
+              th.setAttribute('class', 'number')
+
           th.addEventListener('click', (e)=>{
               sort(e.target, data, sortBy)
           });
