@@ -256,11 +256,6 @@ showTable(json['Data example B']);
       for(let i=0; i<head.length; i++){
           let th = document.createElement('th');
           th.innerHTML = head[i];
-
-
-
-              th.setAttribute('class', 'number')
-
           th.addEventListener('click', (e)=>{
               sort(e.target, data, sortBy)
           });
