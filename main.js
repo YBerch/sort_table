@@ -227,31 +227,32 @@ let json = {
 
 let buttons = document.querySelectorAll('button');
 
-    buttons[0].addEventListener('click', (e)=>{
-      showTable(json['Data example A']);
-    });
-
-    buttons[1].addEventListener('click', (e)=>{
-    showTable(json['Data example B']);
+buttons[0].addEventListener('click', (e)=>{
+showTable(json['Data example A']);
 });
 
-    function showTable(data) {
+buttons[1].addEventListener('click', (e)=>{
+showTable(json['Data example B']);
+});
 
-      //  clear table
-      document.querySelector('#table').innerHTML = ''
+    function showTable(data, sortBy){
+
+      /*clear table*/
+      document.querySelector('#table').innerHTML = '';
 
       let table = document.createElement('table');
       table.setAttribute('border', '5');
-      table.setAttribute('width', '500');
+      table.setAttribute('width', '70%');
       let thead = document.createElement('thead');
-      let tbody = document.createElement('tbody')
+      let tbody = document.createElement('tbody');
       let tr = document.createElement('tr');
 
-      // get headers data of table
-      let head = [];
+      /*get headers data of table*/
+      let head = {};
       for(let i=0; i<data.length; i++) {
-          Object.assign(head, Object.keys(data[i]))
+          head = Object.keys(data[i]).length>Object.keys(head).length? data[i]: head
       }
+        head = Object.keys(head);
 
       for(let i=0; i<head.length; i++){
           let th = document.createElement('th');
@@ -262,19 +263,19 @@ let buttons = document.querySelectorAll('button');
               th.setAttribute('class', 'number')
           }
           th.addEventListener('click', (e)=>{
-              sort(e.target, data)
+              sort(e.target, data, sortBy)
           });
           tr.append(th);
       }
       thead.append(tr);
       table.append(thead);
 
-      // push data to table
+      /*push data to table*/
       for(let i=0; i<data.length; i++){
           let tr = document.createElement('tr');
           for(let j=0; j<head.length; j++){
               let td = document.createElement('td');
-              td.innerHTML = data[i][head[j]]? data[i][head[j]]: '-//-';
+              td.innerHTML = data[i][head[j]]? data[i][head[j]]: '----';
               tr.append(td)
           }
           tbody.append(tr)
@@ -286,37 +287,45 @@ let buttons = document.querySelectorAll('button');
 
     }
 
-    function sort(x, data) {
-
-         if(x.innerText == 'fda_date_approved'){
-             data = data.sort((a, b)=>{
-                 if(new Date(a[x.innerText])>new Date(b[x.innerText]) || a[x.innerText] === undefined) {
-                     return 1
-                 }else{
-                     return -1
-                 }
-             });
-         }else if(x.innerText === 'price'){
-             data = data.sort((a, b)=>{
-                 if(a[x.innerText]>b[x.innerText] || a[x.innerText] === undefined) {
-                     return 1
-                 }else{
-                     return -1
-                 }
-             });
-         }else{
-             data = data.sort((a, b)=>{
-                 if(a[x.innerText]>b[x.innerText] || a[x.innerText] === undefined) {
-                     return 1
-                 }else{
-                     return -1
-                 }
-             });
-         }
-
-
-        console.log(data[0][x.innerText]);
-        showTable(data)
+    /*sorting table function*/
+    function sort(clickOn, data, sortBy) {
+        x = clickOn.innerText;
+        if(x === sortBy){
+            showTable(data.reverse(), x)
+        }else{
+             if(x == 'fda_date_approved'){
+                 data.sort((a, b)=>{
+                     if(a[x] === undefined) return 1;
+                     if(b[x] === undefined) return -1;
+                     if(new Date(a[x].split('/').reverse().join('/'))> new Date(b[x].split('/').reverse().join('/'))) {
+                         return 1
+                     }else{
+                         return -1
+                     }
+                 });
+             }else if(x === 'price' || x === 'phone'){
+                 data.sort((a, b)=>{
+                     if(a[x] === undefined) return 1;
+                     if(b[x] === undefined) return -1;
+                     if(parseFloat(a[x].replace(/[^.0-9]/gim, '')) > parseFloat(b[x].replace(/[^.0-9]/gim, ''))) {
+                         return 1
+                     }else{
+                         return -1
+                     }
+                 });
+             }else{
+                 data.sort((a, b)=>{
+                     if(a[x] === undefined) return 1;
+                     if(b[x] === undefined) return -1;
+                     if(a[x].toLowerCase()>b[x].toLowerCase()) {
+                         return 1
+                     }else{
+                         return -1
+                     }
+                 });
+             }
+            showTable(data, x)
+            }
     }
 
 
