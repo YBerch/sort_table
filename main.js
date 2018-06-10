@@ -264,6 +264,7 @@ showTable(json['Data example B']);
       thead.append(tr);
       table.append(thead);
 
+
       /*push data to table*/
       for(let i=0; i<data.length; i++){
           let tr = document.createElement('tr');
